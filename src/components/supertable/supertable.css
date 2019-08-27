@@ -11,3 +11,6 @@
 .selectedRow {
     background-color: aliceblue!important;
 }
+.selectedPage{
+    text-decoration : underline;
+}

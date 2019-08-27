@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import _ from 'lodash'
-import { Popup } from 'semantic-ui-react'
+import {Icon, Popup, Button } from 'semantic-ui-react'
 import './supertable.css'
 
 const SuperTable = props => {
@@ -48,14 +48,12 @@ const SuperTable = props => {
         }
     }
 
-    const PagingClick = (e) => {
+    const pagingClick = (e) => {
         e.preventDefault()
         const el = e.currentTarget
-        el.style.textDecoration = "underline";
         pageNo = el.innerText
         if (sortedJson.length<1) {
             updateJson(paginate(props.json, pageSize, pageNo - 1))
-            updatePageNo(pageNo)
         }
         else{
             updateJson(paginate(sortedJson, pageSize, pageNo - 1))
@@ -64,51 +62,59 @@ const SuperTable = props => {
     }
     //end pagination
 
-    const HeaderClick = (e) => {
-        const col = e.currentTarget.innerText
-        updateSortDirection(!sortDirection)
-        let sorted = _.orderBy(props.json, col, sortDirection = sortDirection ? 'asc' : 'desc')
-        updateSortedJson(sorted)
-        updateJson(paginate(sorted, pageSize, pageNo - 1))
+    const headerClick = (e) => {
+        if (options.sortable!==false) {
+            const col = e.currentTarget.innerText
+            updateSortDirection(!sortDirection)
+            let sorted = _.orderBy(props.json, col, sortDirection = sortDirection ? 'asc' : 'desc')
+            updateSortedJson(sorted)
+            let pagesize = pageable ? pageSize: props.json.length || 0 
+            updateJson(paginate(sorted, pagesize, pageNo - 1))
+        }
     }
    
     const rowClick = (e) => {
-        updateSelectedRowId(parseInt(e.currentTarget.id))
+        if (options.selectable!==false) {
+        updateSelectedRowId(e.currentTarget.id)
+        }
     }
 
     const createHeader = () => {
         return columns.map((key) => {
             let isHidden = _.includes(hiddenColArr, key)
             if (!isHidden) {
-                return <th key={key} onClick={HeaderClick} >{key}</th>
+                return <th key={key} onClick={headerClick} >{key}</th>
             }
             return null
         })
     }
  
-    const CreateRows = () => {
+    const createRows = () => {
         return json.map((row, index) => {
             const rowId= row[Object.keys(row)[idColIdx]]
-            return <tr id={rowId} className={selectedRowId === rowId ? "selectedRow" : "" }  key={index} onClick={rowClick}  >
-                {CreateCells(row)}
+            /*not yet implement in ESlint it should be something ike this:
+             eslint no-eqeq: true https://eslint.org/docs/rules/
+             *****************ignore this warning ***************** */
+           return <tr id={rowId} className={selectedRowId == rowId ? "selectedRow" : "" }  key={index} onClick={rowClick}  >
+                {createCells(row)}
             </tr>
         })
     }
 
     const createFooter = () => {
         return pageCountArray.map((key) => {
-            return <a href="#!" className={cssClasses} onClick={PagingClick} key={key}>{key}</a>
+            return <a href="#!" className={cssClasses + (pageNo === key ? " selectedPage" : "" )}  onClick={pagingClick} key={key}>{key}</a>
         })
     }
 
-    const CreateCells = (row) => {
+    const createCells = (row) => {
         return columns.map((key) => {
             let isHidden = _.includes(hiddenColArr, key)
             let isCustom = _.find(customColArr, key)
             let isCheckBox = typeof row[key] === "boolean"
             if (!isHidden) {
                 if (isCustom) {
-                    return <td key={key} dangerouslySetInnerHTML={createMarkup(isCustom[key], row[key])} ></td>
+                    return <td key={key} dangerouslySetInnerHTML={createMarkup(key,isCustom[key], row[key])} ></td>
                 }
                 if (isCheckBox) {
                     return <td key={key} > <input readOnly type='checkbox' checked={row[key]}></input> </td>
@@ -119,16 +125,27 @@ const SuperTable = props => {
         })
     }
 
-    const createMarkup = (html, value) => {
-        return { __html: html }
+    const templateLiteral = (template, context = {}) =>  {
+        return template.replace(/\$\{\s*(.+?)\s*\}/g, (match, p1) => {
+            const value = _.get(context, p1, '')
+            return value === null ? '' :  value
+        });
+    };
+
+    const createMarkup = (key,str, replaceValue) => {
+        const result = templateLiteral(str, {
+            [key]:replaceValue
+        });
+        return { __html: result  }
     }
+  
 
     if (json.length > 0) {
         return (
             <table className={cssClasses}  >
                 <thead><tr>{createHeader()}</tr></thead>
                 <tbody>
-                    {CreateRows()}
+                    {createRows()}
                 </tbody>
                 <tfoot>
                     <tr><td>{createFooter()}</td></tr>

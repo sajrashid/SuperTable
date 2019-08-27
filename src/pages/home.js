@@ -12,7 +12,7 @@ const Home = props => {
     pageSize:15,// Optional Defaults to 10
     hiddenCols: ['userId'], //Hide any column
     footer: true, //add table footer
-    customCols: [{ 'Desc': '<i aria-hidden="true" className=" circle  info  icon"></i> content=${styles}/>' }],
+    customCols: [{ 'Desc': '<i aria-hidden="true" className=" circle  info  icon"></i> content=${Desc}/>' }],
     styles: "ui red padded striped celled fixed table",
     // NB SelectedRow backgroundColor can be set from SuperTable styles default ALice-Blue
   }
@@ -22,7 +22,7 @@ const Home = props => {
   useEffect(() => {
     async function fetchAPI() {
       updateIsLoading(true)
-      let url = 'https://jsonplaceholder.typicode.com/posts'
+      const url = 'https://jsonplaceholder.typicode.com/posts'
       const response = await fetch(url)
       const json = await response.json().then(updateIsLoading(false))
       updateJson(json)
