@@ -5,26 +5,33 @@ import API from '../helpers/api'
 const Home = props => {
 
   const options = {
+    idCol:'id', // Not Required- If the first col is an identity column
     editable: true,
-    pageable: true,
+    pageable: true, // Only Required- If you want paging
+    pageSize:25,// Optional Defaults to 10
     hiddenCols: [],
     footer: true,
+    customCols: [{ 'Desc': '<i aria-hidden="true" className=" circle  info  icon"></i> content=${styles}/>' }],
     styles: "ui red padded striped celled fixed table",
-    customCols: [{ 'Desc': '<i aria-hidden="true" className=" circle  info  icon"></i> content=${styles}/>' }]
+    // NB SelectedRow backgroundColor can be set from SuperTable styles default ALice-Blue
   }
 
   let [json, updateJson] = useState([])
 
 
-  function useFetch(url) {
-    useEffect(async () => {
-      const resp = await fetch(url)
-      const json = await resp.json()
+
+
+  useEffect(() => {
+    async function fetchAPI() {
+      let url = 'https://jsonplaceholder.typicode.com/posts';
+      let config = {};
+      const response = await fetch(url);
+      const json = await response.json()
       updateJson(json)
-    }, [])
-  }
-  const query = `https://jsonplaceholder.typicode.com/posts`
-  useFetch(query, {})
+    }  
+    fetchAPI();
+  }, []);
+  
   if (json.length > 0) {
     return (
       <div>

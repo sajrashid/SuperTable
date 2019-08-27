@@ -4,60 +4,66 @@ import { Popup } from 'semantic-ui-react'
 import './supertable.css'
 
 const SuperTable = props => {
+    let [json, updateJson] = useState(props.json || [])
+
     const options = props.options || {}
     const pageable = options.pageable || false
-    const pagesize=options.pagesize || 10 
-    let [pageCountArray,updatePageCountArray] =useState([]) 
-    let [json, updateJson] = useState([]) //TODO must fix causing extra renders as pagination is resetting state!
-    const [hasRan, updateHasRan] = useState(false)
-    
+    const pageSize = options.pageSize || 10
     const hiddenColArr = options.hiddenCols || []
     const customColArr = options.customCols || []
-    const columns = Object.keys(props.json[0] || {})
+    const idColIdx =  options.idCol ?  Object.keys(json[0]).indexOf(options.idCol):0
+    const styles = options.styles || ''
+
+    let [sortedJson, updateSortedJson] = useState(props.json || []) 
+    let [pageCountArray, updatePageCountArray] = useState([])
     let [sortDirection, updateSortDirection] = useState(false)
-    let styles = options.styles || ''
-    const cssClasses = `supertable ${styles}` 
+    let [pageNo, updatePageNo] = useState(1)
+
+    const [hasRan, updateHasRan] = useState(false)
+    const columns = Object.keys(props.json[0] || {})
+    const cssClasses = `supertable ${styles}`
+    let [selectedRowId, updateSelectedRowId] = useState(null)
+
     //pagination
-    let [pageNo, updatePageNo] = useState(1) 
     const paginate = (array, page_size, page_number) => {
         return array.slice(page_number * page_size, (page_number + 1) * page_size);
-      };
-    
-      if (pageable && hasRan === false) {
-        let totalpages = props.json.length / pagesize;
+    };
+
+    if (pageable && hasRan === false) {
+        let totalpages = props.json.length / pageSize;
         totalpages = Math.ceil(totalpages); //round up to the next largest whole number or integer.
         let pageCountArray = [];
         //change the 2 to a 3 and you'll see 3 pages it should be 1 (I think)
-        for (let index = 1; index < totalpages + 1; index++) {
-          pageCountArray.push(index);
+        for (let i = 1; i < totalpages + 1; i++) {
+            pageCountArray.push(i);
         }
         updateHasRan(true);
         updatePageCountArray(pageCountArray);
-        updateJson(paginate(props.json, pagesize, 0));
-      }
+        updateJson(paginate(props.json || [], pageSize, 0));
+    } 
+
     const PagingClick = (e) => {
         e.preventDefault()
         const el = e.currentTarget
         el.style.textDecoration = "underline";
         pageNo = el.innerText
-        updateJson(paginate(props.json, pagesize, pageNo - 1))
+        updateJson(paginate(sortedJson, pageSize, pageNo - 1))
         updatePageNo(pageNo)
     }
     //end pagination
-    const createFooter = () => {
-        return pageCountArray.map((key) => {
-            return <a href="#!" className={cssClasses} onClick={PagingClick} key={key}>{key}</a>
-        })
-    }
+
     const HeaderClick = (e) => {
         const col = e.currentTarget.innerText
         updateSortDirection(!sortDirection)
-        let sorted =_.orderBy(props.json, col, sortDirection = sortDirection ? 'asc' : 'desc')
-        updateJson(paginate(sorted, pagesize, pageNo - 1))
+        let sorted = _.orderBy(props.json, col, sortDirection = sortDirection ? 'asc' : 'desc')
+        updateSortedJson(sorted)
+        updateJson(paginate(sorted, pageSize, pageNo - 1))
     }
+   
     const rowClick = (e) => {
-        const row = e.currentTarget
+        updateSelectedRowId(parseInt(e.currentTarget.id))
     }
+
     const createHeader = () => {
         return columns.map((key) => {
             let isHidden = _.includes(hiddenColArr, key)
@@ -67,9 +73,24 @@ const SuperTable = props => {
             return null
         })
     }
-    const createMarkup =(html, value) => {
-        return { __html: html  }
+ 
+    const CreateRows = () => {
+        const cssClasses = `supertable ${styles}`
+
+        return json.map((row, index) => {
+            const rowId= row[Object.keys(row)[idColIdx]]
+            return <tr id={rowId} className={selectedRowId === rowId ? "selectedRow" : "" }  key={index} onClick={rowClick}  >
+                {CreateCells(row)}
+            </tr>
+        })
     }
+
+    const createFooter = () => {
+        return pageCountArray.map((key) => {
+            return <a href="#!" className={cssClasses} onClick={PagingClick} key={key}>{key}</a>
+        })
+    }
+
     const CreateCells = (row) => {
         return columns.map((key) => {
             let isHidden = _.includes(hiddenColArr, key)
@@ -87,15 +108,13 @@ const SuperTable = props => {
             return null
         })
     }
-    const CreateRows = () => {
-        return json.map((row, index) => {
-            return <tr id={row[Object.keys(row)[1]]} key={index} onClick={rowClick}  >
-                {CreateCells(row)}
-            </tr>
-        })
+
+    const createMarkup = (html, value) => {
+        return { __html: html }
     }
+
     if (json.length > 0) {
-        return   (
+        return (
             <table className={cssClasses}  >
                 <thead><tr>{createHeader()}</tr></thead>
                 <tbody>
@@ -109,7 +128,7 @@ const SuperTable = props => {
     }
     return (
         <table className={cssClasses}  >
-              <thead><tr><td>Empty</td></tr></thead>
+            <thead><tr><td>Empty</td></tr></thead>
             <tr><td>Empty</td></tr>
         </table>
     )
