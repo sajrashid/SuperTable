@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import _ from 'lodash'
 import { Popup } from 'semantic-ui-react'
 import './supertable.css'
 
 const SuperTable = props => {
     let [json, updateJson] = useState(props.json || [])
-
     const options = props.options || {}
     const pageable = options.pageable || false
     const pageSize = options.pageSize || 10
     const hiddenColArr = options.hiddenCols || []
     const customColArr = options.customCols || []
-    const idColIdx =  options.idCol ?  Object.keys(json[0]).indexOf(options.idCol):0
+    const idColIdx =  options.idCol ?  Object.keys(json[0]|| []).indexOf(options.idCol):0
     const styles = options.styles || ''
 
     let [sortedJson, updateSortedJson] = useState(props.json || []) 
@@ -29,7 +28,7 @@ const SuperTable = props => {
         return array.slice(page_number * page_size, (page_number + 1) * page_size);
     };
 
-    if (pageable && hasRan === false) {
+    if (pageable && hasRan === false ) {
         let totalpages = props.json.length / pageSize;
         totalpages = Math.ceil(totalpages); //round up to the next largest whole number or integer.
         let pageCountArray = [];
@@ -37,18 +36,31 @@ const SuperTable = props => {
         for (let i = 1; i < totalpages + 1; i++) {
             pageCountArray.push(i);
         }
-        updateHasRan(true);
-        updatePageCountArray(pageCountArray);
-        updateJson(paginate(props.json || [], pageSize, 0));
-    } 
+        if (props.json.length>0 ) {
+            updateHasRan(true);
+            updatePageCountArray(pageCountArray);
+            updateJson(paginate(props.json || [], pageSize, 0));
+        }
+    } else if(pageable===false  && hasRan === false ){
+        if (props.json.length>0 ) {
+            updateHasRan(true);
+            updateJson(props.json);
+        }
+    }
 
     const PagingClick = (e) => {
         e.preventDefault()
         const el = e.currentTarget
         el.style.textDecoration = "underline";
         pageNo = el.innerText
-        updateJson(paginate(sortedJson, pageSize, pageNo - 1))
-        updatePageNo(pageNo)
+        if (sortedJson.length<1) {
+            updateJson(paginate(props.json, pageSize, pageNo - 1))
+            updatePageNo(pageNo)
+        }
+        else{
+            updateJson(paginate(sortedJson, pageSize, pageNo - 1))
+            updatePageNo(pageNo)
+        }
     }
     //end pagination
 
@@ -75,8 +87,6 @@ const SuperTable = props => {
     }
  
     const CreateRows = () => {
-        const cssClasses = `supertable ${styles}`
-
         return json.map((row, index) => {
             const rowId= row[Object.keys(row)[idColIdx]]
             return <tr id={rowId} className={selectedRowId === rowId ? "selectedRow" : "" }  key={index} onClick={rowClick}  >
