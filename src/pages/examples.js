@@ -57,16 +57,16 @@ const Examples = props => {
     styles: "ui blue  striped fixed table",
     pageable: true,
     pageSize: 3,
+    cellColor:['Status'], // cells background color will be set from item data
     checkBox:false, // default is to show boolean values as checkbox
     /*eslint no-template-curly-in-string: "off"*/
     customCols: [
                   { 'Img': "<div style='min-height:6em;display:inline-block;'> <img src=${Img}></img><div>" },
                   { 'Cost': "<div style='background-color:yellow;'>${Cost}</div>" },
-                  { 'Desc': ' <Popup trigger={<i aria-hidden="true" className=" circle  info  icon"></i>}  content=${Desc}/>' }
-                ],
-    cellColor:['Status'] // cells background color will be set from item data
-  }
-
+                  {'Prod':'<div class="ui input"> <input type="text" class="hidden"  value=${Prod}/></div>'}
+                ]
+  
+              }
   return (
     <div>
       <div>
