@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import _ from 'lodash'
-import {Icon, Popup, Button } from 'semantic-ui-react'
 import './supertable.css'
 
 const SuperTable = props => {
@@ -10,9 +9,10 @@ const SuperTable = props => {
     const pageSize = options.pageSize || 10
     const hiddenColArr = options.hiddenCols || []
     const customColArr = options.customCols || []
+    const cellColorArr = options.cellColor || []
     const idColIdx =  options.idCol ?  Object.keys(json[0]|| []).indexOf(options.idCol):0
     const styles = options.styles || ''
-
+   
     let [sortedJson, updateSortedJson] = useState(props.json || []) 
     let [pageCountArray, updatePageCountArray] = useState([])
     let [sortDirection, updateSortDirection] = useState(false)
@@ -92,9 +92,7 @@ const SuperTable = props => {
     const createRows = () => {
         return json.map((row, index) => {
             const rowId= row[Object.keys(row)[idColIdx]]
-            /*not yet implement in ESlint it should be something ike this:
-             eslint no-eqeq: true https://eslint.org/docs/rules/
-             *****************ignore this warning ***************** */
+           // eslint-disable-next-line
            return <tr id={rowId} className={selectedRowId == rowId ? "selectedRow" : "" }  key={index} onClick={rowClick}  >
                 {createCells(row)}
             </tr>
@@ -111,15 +109,22 @@ const SuperTable = props => {
         return columns.map((key) => {
             let isHidden = _.includes(hiddenColArr, key)
             let isCustom = _.find(customColArr, key)
+            let isCellColorArr =_.includes(cellColorArr, key)
             let isCheckBox = typeof row[key] === "boolean"
             if (!isHidden) {
                 if (isCustom) {
                     return <td key={key} dangerouslySetInnerHTML={createMarkup(key,isCustom[key], row[key])} ></td>
+                   
                 }
-                if (isCheckBox) {
+             
+                if (isCellColorArr) {
+                    return <td style={{ backgroundColor:row[key] }} key={key}  ></td>
+                }
+                if (isCheckBox && options.checkBox!==false) {
                     return <td key={key} > <input readOnly type='checkbox' checked={row[key]}></input> </td>
                 }
-                return <td key={key}>{row[key]}</td>
+
+                return <td key={key}>{row[key].toString()}</td>
             }
             return null
         })
@@ -134,8 +139,10 @@ const SuperTable = props => {
 
     const createMarkup = (key,str, replaceValue) => {
         const result = templateLiteral(str, {
+        
             [key]:replaceValue
         });
+    
         return { __html: result  }
     }
   
@@ -161,4 +168,5 @@ const SuperTable = props => {
     )
 }
 export default SuperTable;
+
 

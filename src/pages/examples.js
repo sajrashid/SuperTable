@@ -1,6 +1,6 @@
 import React from "react";
 import SuperTable from '../components/supertable/supertable'
-
+import {Icon, Popup } from 'semantic-ui-react'
 const Examples = props => {
   const data1 = [
     { 'ID': 1, 'Name': 'React', 'Desc': 'Shadow Dom', 'Testing': false, },
@@ -27,27 +27,53 @@ const Examples = props => {
     {  'Name': 'BackBone', 'Desc': 'Some Data', 'Testing': true, },
     {  'Name': 'BackBone', 'Desc': 'Some Data', 'Testing': true, }
   ]
+  const data3 = [
+    {  'Product': 'Python','Desc': 'Some Data',   'Status':'green', 'Img': 'https://i.imgur.com/MsXTPi5.png', 'Cost': '39$', 'Prod':false },
+    {  'Product': 'Jenkins','Desc':'Old Data',  'Status':'red','Img': 'https://i.imgur.com/lHtB6Vo.png', 'Cost': '550$', 'Prod':true  },
+    {  'Product': 'React','Desc': 'New Data',  'Status':'orange','Img': 'https://i.imgur.com/3v3eCwd.png',  'Cost': '21$', 'Prod':true  },
+    {  'Product': 'Other','Desc': 'Some other Data',  'Status':'orange','Img': 'https://i.imgur.com/3v3eCwd.png',  'Cost': '21$', 'Prod':false  },
+  ]
   const options1 = {
+    styles: "ui red striped table",
     pageable: true,
-   // NB SelectedRow backgroundColor can be set from SuperTable styles default ALice-Blue
+  
+   // NB SelectedRow backgroundColor can be set from SuperTable  style sheet default ALice-Blue
  }
   const options2 = {
-       styles: "ui blue padded celled fixed table",
-    // NB SelectedRow backgroundColor can be set from SuperTable styles default ALice-Blue
+       styles: "ui blue  padded celled fixed table",
+       sortable:false //Table sorts by default set it to false to turn off sorting
+    // NB SelectedRow backgroundColor can be set from SuperTable  style sheet default ALice-Blue
   }
   const options3= {
     hiddenCols: ['ID'], //Hide any column
     pageable: false,
+      /*eslint no-template-curly-in-string: "off"*/
     customCols: [{ 'Desc': "<div style='background-color:limegreen;'>${Desc}</div>" }],
     styles: "ui green  table",
     selectable:false // turns of row selection
-    // NB SelectedRow backgroundColor can be set from SuperTable styles default ALice-Blue
+    // NB SelectedRow backgroundColor can be set from SuperTable style sheet default ALice-Blue
   }
+  const options4 = {
+    styles: "ui blue  striped fixed table",
+    pageable: true,
+    pageSize: 3,
+    checkBox:false, // default is to show boolean values as checkbox
+    /*eslint no-template-curly-in-string: "off"*/
+    customCols: [
+                  { 'Img': "<div style='min-height:6em;display:inline-block;'> <img src=${Img}></img><div>" },
+                  { 'Cost': "<div style='background-color:yellow;'>${Cost}</div>" },
+                  { 'Desc': ' <Popup trigger={<i aria-hidden="true" className=" circle  info  icon"></i>}  content=${Desc}/>' }
+                ],
+    cellColor:['Status'] // cells background color will be set from item data
+  }
+
   return (
     <div>
       <div>
         <SuperTable json={data1} />
-        <SuperTable json={data1} options={options1} />
+      </div>
+      <div>
+       <SuperTable json={data1} options={options1} />
       </div>
       <div>
         {/* this table will cause duplicate row selections as it
@@ -57,6 +83,7 @@ const Examples = props => {
       </div>
       <div>
         <SuperTable json={data1} options={options3} />
+        <SuperTable json={data3} options={options4}  />
       </div>
     </div>
   )

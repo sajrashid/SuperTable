@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import SuperTable from '../components/supertable/supertable'
 import './home.css'
 
-
 const Home = props => {
   // Table options not required for defaults
   const options = { 
@@ -12,6 +11,7 @@ const Home = props => {
     pageSize:15,// Optional Defaults to 10
     hiddenCols: ['userId'], //Hide any column
     footer: true, //add table footer
+    /*eslint no-template-curly-in-string: "off"*/
     customCols: [{ 'Desc': '<i aria-hidden="true" className=" circle  info  icon"></i> content=${Desc}/>' }],
     styles: "ui red padded striped celled fixed table",
     // NB SelectedRow backgroundColor can be set from SuperTable styles default ALice-Blue
