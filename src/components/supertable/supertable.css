@@ -15,14 +15,14 @@
     text-decoration : underline;
 }
 
-.supertable .footerDiv {
+.supertable .pagerDiv {
 display: inline-block;
 padding: 0.5em;
 min-height: 2.4em;
 background-color: #f7f7f7;
 min-width: 230px;
  }
- .supertable .footerDiv button  {
+ .supertable .pagerDiv button  {
     float: left;
     font-size: 1.3em;
     border: 0.05em solid grey;
@@ -35,7 +35,7 @@ min-width: 230px;
  }
  
 
- .supertable .footerDiv  input {
+ .supertable .pagerDiv  input {
     float: left;
     width:3em;
     line-height: 1.5em;
@@ -43,7 +43,7 @@ min-width: 230px;
     color:#999;
  }
 
- .supertable .footerDiv .pageCounter {
+ .supertable .pagerDiv .pageCounter {
 position: relative;
 top:0.25em;
 margin-left:0.5em;

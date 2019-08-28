@@ -12,7 +12,6 @@ const SuperTable = props => {
     let [selectedRowId, updateSelectedRowId] = useState(null)
     let [sortedJson, updateSortedJson] = useState(props.json || [])
     let [pagerInput, updatePagerInput] = useState(1)
-    let [pageCountArray, updatePageCountArray] = useState([])
     let [sortDirection, updateSortDirection] = useState(false)
     let [pageNo, updatePageNo] = useState(1)
     const [hasRan, updateHasRan] = useState(false)
@@ -30,14 +29,8 @@ const SuperTable = props => {
     const pagerIcons = { first: '&lsaquo;', previous: '&laquo;', next: '&raquo', last: '&rsaquo;' }
 
     if (pageable && hasRan === false) {
-        let pageCountArray = [];
-        //change the 2 to a 3 and you'll see 3 pages it should be 1 (I think)
-        for (let i = 1; i < totalpages + 1; i++) {
-            pageCountArray.push(i);
-        }
         if (props.json.length > 0) {
             updateHasRan(true);
-            updatePageCountArray(pageCountArray);
             updateJson(paginate(props.json || [], pageSize, 0));
         }
     } else if (pageable === false && hasRan === false) {
@@ -46,11 +39,12 @@ const SuperTable = props => {
             updateJson(props.json);
         }
     }
+
     const pagingInputChange = (e) => {
         e.preventDefault()
         const el = e.currentTarget
         let inputValue = parseInt(el.value)
-        if ((inputValue < totalpages) && (inputValue > 0)) {
+        if ((inputValue < totalpages +1) && (inputValue > 0)) {
             updatePagerInput(inputValue)
             if (sortedJson.length < 1) {
                 updateJson(paginate(props.json, pageSize, inputValue - 1))
@@ -87,7 +81,6 @@ const SuperTable = props => {
         }
         else {
             updateJson(paginate(sortedJson, pageSize, newPageNo - 1))
-
         }
         updatePagerInput(newPageNo)
         updatePageNo(newPageNo)
@@ -148,7 +141,6 @@ const SuperTable = props => {
                 </React.Fragment>
             }
             return <button id={key} onClick={pagingClick} dangerouslySetInnerHTML={createMarkupB(html)} key={index}></button>
-
         })
     }
 
@@ -193,8 +185,6 @@ const SuperTable = props => {
         return { __html: result }
     }
 
-
-
     if (json.length > 0) {
         return (
             <table className={cssClasses}  >
@@ -205,7 +195,7 @@ const SuperTable = props => {
                 <tfoot>
                     <tr >
                         {pageable &&
-                            <td style={{ minWidth: '200px' }}><div className='footerDiv' >{createFooter()}</div></td>
+                            <td style={{ minWidth: '200px' }}><div className='pagerDiv' >{createFooter()}</div></td>
                         }
                     </tr>
                 </tfoot>
