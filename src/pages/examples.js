@@ -1,6 +1,5 @@
 import React from "react";
 import SuperTable from '../components/supertable/supertable'
-import {Icon, Popup } from 'semantic-ui-react'
 const Examples = props => {
   const data1 = [
     { 'ID': 1, 'Name': 'React', 'Desc': 'Shadow Dom', 'Testing': false, },
