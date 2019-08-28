@@ -21,7 +21,7 @@ const Home = props => {
     // Not Required- If the first col is an identity column
     editable: true, //
     pageable: true, // Only Required- If you want paging
-    pageSize:20,// Optional Defaults to 10
+    pageSize:21,// Optional Defaults to 10
     hiddenCols: ['id'], //Hide any column
     customCols: [{ 'Desc': '<i aria-hidden="true" className=" circle  info  icon"></i> content=${Desc}/>' }],
     styles: "ui red padded striped celled fixed table",
@@ -47,7 +47,7 @@ const Home = props => {
     return (
       <div>
         <SuperTable json={json} options={options} />
-      <SuperTable json={cars} options={options} />
+      <SuperTable json={cars} options={carOptions} />
     </div>
     )
 }
