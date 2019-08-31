@@ -129,18 +129,18 @@ const SuperTable = props => {
         return arr.map((key, index) => {
             let html = pagerIcons[key]
             if (index === 2) {
-                return <React.Fragment>
-                    <div><input onChange={pagingInputChange} key={index} value={pagerInput} type="number" /></div>
-                    <button id={key} onClick={pagingClick} dangerouslySetInnerHTML={createMarkupB(html)} key={index}></button>
+                return <React.Fragment  key={index}>
+                    <div><input onChange={pagingInputChange} value={pagerInput} type="number" /></div>
+                    <button id={key} onClick={pagingClick} dangerouslySetInnerHTML={createMarkupB(html)}></button>
                 </React.Fragment>
             }
             if (index === 3) {
-                return <React.Fragment>
-                    <button id={key} onClick={pagingClick} dangerouslySetInnerHTML={createMarkupB(html)} key={index}></button>
-                    <div className='pageCounter'>{pageNo}&nbsp;of&nbsp;{totalpages}&nbsp;pages</div>
+                return <React.Fragment  key={index}>
+                    <button  id={key} onClick={pagingClick} dangerouslySetInnerHTML={createMarkupB(html)}></button>
+                    <div  className='pageCounter'>{pageNo}&nbsp;of&nbsp;{totalpages}&nbsp;pages</div>
                 </React.Fragment>
             }
-            return <button id={key} onClick={pagingClick} dangerouslySetInnerHTML={createMarkupB(html)} key={index}></button>
+            return <button  key={index} id={key} onClick={pagingClick} dangerouslySetInnerHTML={createMarkupB(html)}></button>
         })
     }
 
@@ -203,9 +203,11 @@ const SuperTable = props => {
         )
     }
     return (
-        <table className={cssClasses}  >
+        <table className={cssClasses} >
             <thead><tr><td>Empty</td></tr></thead>
+            <tbody>
             <tr><td>Empty</td></tr>
+            </tbody>
         </table>
     )
 }

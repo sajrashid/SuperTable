@@ -13,7 +13,7 @@ const Home = props => {
     hiddenCols: ['userId'], //Hide any column
     footer: true, //add table footer
     /*eslint no-template-curly-in-string: "off"*/
-    customCols: [{ 'Desc': '<i aria-hidden="true" className=" circle  info  icon"></i> content=${Desc}/>' }],
+    customCols: [{ 'title': '<i aria-hidden="true" class=" circle  info  icon"></i> content=${title}/>' }],
     styles: "ui red padded striped celled fixed table",
     // NB SelectedRow backgroundColor can be set from SuperTable styles default ALice-Blue
   }
@@ -23,7 +23,7 @@ const Home = props => {
     pageable: true, // Only Required- If you want paging
     pageSize:21,// Optional Defaults to 10
     hiddenCols: ['id'], //Hide any column
-    customCols: [{ 'Desc': '<i aria-hidden="true" className=" circle  info  icon"></i> content=${Desc}/>' }],
+    customCols: [{ 'BitCoin Address': '<i aria-hidden="true" class=" circle  info  icon"></i> content=${BitCoin Address}/>' }],
     styles: "ui red padded striped celled fixed table",
     // NB SelectedRow backgroundColor can be set from SuperTable styles default ALice-Blue
   }
@@ -42,7 +42,7 @@ const Home = props => {
   }, [])
   
     if (isLoading) {
-      return <div class="lds-facebook"><div></div><div></div><div></div></div>
+      return <div className="lds-facebook"><div></div><div></div><div></div></div>
     }
     return (
       <div>
