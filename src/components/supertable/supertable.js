@@ -1,22 +1,21 @@
 import React, { useState } from "react";
 import _ from 'lodash'
 import './supertable.css'
+import Rows from './components/rows'
+import Thead from './components/thead'
+import Pager from './components/pager'
 
 const SuperTable = props => {
     const options = props.options || {}
     const pageable = options.pageable || false
     const pageSize = options.pageSize || 10
-    const hiddenColArr = options.hiddenCols || []
-    const customColArr = options.customCols || []
-    const cellColorArr = options.cellColor || []
     let [selectedRowId, updateSelectedRowId] = useState(null)
     let [sortedJson, updateSortedJson] = useState(props.json || [])
     let [pagerInput, updatePagerInput] = useState(1)
     let [sortDirection, updateSortDirection] = useState(false)
     let [pageNo, updatePageNo] = useState(1)
     const [hasRan, updateHasRan] = useState(false)
-    const idColIdx = options.idCol ? Object.keys(props.json[0] || []).indexOf(options.idCol) : 0
-    const columns = Object.keys(props.json[0] || {})
+
     let [json, updateJson] = useState(props.json || [])
     const styles = options.styles || ''
     const cssClasses = `supertable ${styles}`
@@ -44,7 +43,7 @@ const SuperTable = props => {
         e.preventDefault()
         const el = e.currentTarget
         let inputValue = parseInt(el.value)
-        if ((inputValue < totalpages +1) && (inputValue > 0)) {
+        if ((inputValue < totalpages + 1) && (inputValue > 0)) {
             updatePagerInput(inputValue)
             if (sortedJson.length < 1) {
                 updateJson(paginate(props.json, pageSize, inputValue - 1))
@@ -104,112 +103,29 @@ const SuperTable = props => {
         }
     }
 
-    const createHeader = () => {
-        return columns.map((key) => {
-            let isHidden = _.includes(hiddenColArr, key)
-            if (!isHidden) {
-                return <th key={key} onClick={headerClick} >{key}</th>
-            }
-            return null
-        })
-    }
-
-    const createRows = () => {
-        return json.map((row, index) => {
-            const rowId = row[Object.keys(row)[idColIdx]]
-            // eslint-disable-next-line
-            return <tr id={rowId} className={selectedRowId == rowId ? "selectedRow" : ""} key={index} onClick={rowClick}  >
-                {createCells(row)}
-            </tr>
-        })
-    }
-
-    const createFooter = () => {
-        let arr = Object.keys(pagerIcons)
-        return arr.map((key, index) => {
-            let html = pagerIcons[key]
-            if (index === 2) {
-                return <React.Fragment  key={index}>
-                    <div><input onChange={pagingInputChange} value={pagerInput} type="number" /></div>
-                    <button id={key} onClick={pagingClick} dangerouslySetInnerHTML={createMarkupB(html)}></button>
-                </React.Fragment>
-            }
-            if (index === 3) {
-                return <React.Fragment  key={index}>
-                    <button  id={key} onClick={pagingClick} dangerouslySetInnerHTML={createMarkupB(html)}></button>
-                    <div  className='pageCounter'>{pageNo}&nbsp;of&nbsp;{totalpages}&nbsp;pages</div>
-                </React.Fragment>
-            }
-            return <button  key={index} id={key} onClick={pagingClick} dangerouslySetInnerHTML={createMarkupB(html)}></button>
-        })
-    }
-
-    const createCells = (row) => {
-        return columns.map((key) => {
-            let isHidden = _.includes(hiddenColArr, key)
-            let isCustom = _.find(customColArr, key)
-            let isCellColorArr = _.includes(cellColorArr, key)
-            let isCheckBox = typeof row[key] === "boolean"
-            if (!isHidden) {
-                if (isCustom) {
-                    return <td key={key} dangerouslySetInnerHTML={createMarkup(key, isCustom[key], row[key])} ></td>
-
-                }
-                if (isCellColorArr) {
-                    return <td style={{ backgroundColor: row[key] }} key={key}  ></td>
-                }
-                if (isCheckBox && options.checkBox !== false) {
-                    return <td key={key} > <input readOnly type='checkbox' checked={row[key]}></input> </td>
-                }
-
-                return <td key={key}>{row[key].toString()}</td>
-            }
-            return null
-        })
-    }
-    const createMarkupB = (html) => {
-        return { __html: html }
-    }
-
-    const templateLiteral = (template, context = {}) => {
-        return template.replace(/\$\{\s*(.+?)\s*\}/g, (match, p1) => {
-            const value = _.get(context, p1, '')
-            return value === null ? '' : value
-        });
-    };
-
-    const createMarkup = (key, str, replaceValue) => {
-        const result = templateLiteral(str, {
-            [key]: replaceValue
-        });
-        return { __html: result }
-    }
 
     if (json.length > 0) {
         return (
             <table className={cssClasses}  >
-                <thead><tr>{createHeader()}</tr></thead>
+                <thead><tr>
+                    <Thead json={json} options={options} headerClick={headerClick} />
+                </tr></thead>
                 <tbody>
-                    {createRows()}
+                    <Rows json={json} options={options} selectedRowId={selectedRowId} rowClick={rowClick} />
                 </tbody>
                 <tfoot>
                     <tr >
                         {pageable &&
-                            <td style={{ minWidth: '200px' }}><div className='pagerDiv' >{createFooter()}</div></td>
+                            <td style={{ minWidth: '200px' }}><div className='pagerDiv' >
+                                <Pager pagerIcons={pagerIcons} totalpages={totalpages} pagerInput={pagerInput} pageNo={pageNo} pagingClick={pagingClick} pagingInputChange={pagingInputChange} />
+                            </div></td>
                         }
                     </tr>
                 </tfoot>
             </table>
         )
     }
-    return (
-        <table className={cssClasses} >
-            <thead><tr><td>Empty</td></tr></thead>
-            <tbody>
-            <tr><td>Empty</td></tr>
-            </tbody>
-        </table>
-    )
+    return null
 }
 export default SuperTable;
 
