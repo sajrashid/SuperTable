@@ -4,10 +4,10 @@ import _ from 'lodash'
 
 
 const Cells = props => {
-    const options = props.options 
-    const customColArr = options.customCols 
-    const cellColorArr = options.cellColor 
-    const hiddenColArr = options.hiddenCols 
+    const options = props.options
+    const customColArr = options.customCols
+    const cellColorArr = options.cellColor
+    const hiddenColArr = options.hiddenCols
     const columns = Object.keys(props.row)
 
     const templateLiteral = (template, context = {}) => {
@@ -26,27 +26,18 @@ const Cells = props => {
 
     const createCells = (row) => {
         return columns.map((key) => {
-            let isHidden = _.includes(hiddenColArr, key)
-            let isCustom = _.find(customColArr, key)
-            let isCellColorArr = _.includes(cellColorArr, key)
-            let isCheckBox = typeof row[key] === "boolean"
-            if (!isHidden) {
-                if (isCustom) {
-                    return <td key={key} dangerouslySetInnerHTML={createMarkup(key, isCustom[key], row[key])} ></td>
+            const isHidden = _.includes(hiddenColArr, key)
+            const isCustom = _.find(customColArr, key)
+            const isCellColorArr = _.includes(cellColorArr, key)
+            const isCheckBox = typeof row[key] === "boolean"
+            return isHidden ? null :
+                isCustom ? <td key={key} dangerouslySetInnerHTML={createMarkup(key, isCustom[key], row[key])}></td> :
+                    isCellColorArr ? <td style={{ backgroundColor: row[key] }} key={key}></td> :
+                        isCheckBox && options.checkBox !== false ? <td key={key}> <input readOnly type='checkbox' checked={row[key]}></input></td> :
+                            <td key={key}>{row[key].toString()}</td>
 
-                }
-                if (isCellColorArr) {
-                    return <td style={{ backgroundColor: row[key] }} key={key}  ></td>
-                }
-                if (isCheckBox && options.checkBox !== false) {
-                    return <td key={key} > <input readOnly type='checkbox' checked={row[key]}></input> </td>
-                }
-
-                return <td key={key}>{row[key].toString()}</td>
-            }
-            return null
         })
     }
-    return(createCells(props.row))
+    return (createCells(props.row))
 }
 export default Cells;

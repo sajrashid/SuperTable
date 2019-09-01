@@ -23,14 +23,10 @@ const thead = props => {
 
     const createHeader = () => {
         return columns.map((key) => {
-            let isHidden = _.includes(hiddenColArr, key)
-            let isLabel = _.find(labelColsArr, key)
-            if (!isHidden) {
-                let rtnLbl = isLabel ? <th id={key} key={key} onClick={props.headerClick} dangerouslySetInnerHTML={createMarkup(key, isLabel[key], key)}  ></th> :<th id={key} key={key} onClick={props.headerClick} >{key}</th>
-                return rtnLbl
-            }
-         
-            return null
+            const isHidden = _.includes(hiddenColArr, key)
+            const isLabel = _.find(labelColsArr, key)
+            return isHidden ? null : isLabel ? <th id={key} key={key} onClick={props.headerClick} dangerouslySetInnerHTML={createMarkup(key, isLabel[key], key)}  ></th>
+                : <th id={key} key={key} onClick={props.headerClick} >{key}</th>
         })
     }
 

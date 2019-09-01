@@ -13,7 +13,7 @@ const pager = props => {
       
         return arr.map((key, index) => {
            
-            let html = props.pagerIcons[key]
+            const html = props.pagerIcons[key]
            
             if (index === 2) {
                

@@ -9,14 +9,14 @@ const SuperTable = props => {
     const options = props.options || {}
     const pageable = options.pageable || false
     const pageSize = options.pageSize || 10
-    let [selectedRowId, updateSelectedRowId] = useState(null)
-    let [sortedJson, updateSortedJson] = useState(props.json || [])
-    let [pagerInput, updatePagerInput] = useState(1)
+    const [selectedRowId, updateSelectedRowId] = useState(null)
+    const [sortedJson, updateSortedJson] = useState(props.json || [])
+    const [pagerInput, updatePagerInput] = useState(1)
     let [sortDirection, updateSortDirection] = useState(false)
-    let [pageNo, updatePageNo] = useState(1)
+    const [pageNo, updatePageNo] = useState(1)
     const [hasRan, updateHasRan] = useState(false)
 
-    let [json, updateJson] = useState(props.json || [])
+    const [json, updateJson] = useState(props.json || [])
     const styles = options.styles || ''
     const cssClasses = `supertable ${styles}`
     let totalpages = props.json.length / pageSize;
