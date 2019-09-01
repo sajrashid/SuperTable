@@ -10,7 +10,8 @@ const Home = props => {
     editable: true, //
     pageable: true, // Only Required- If you want paging
     pageSize:10,// Optional Defaults to 10
-    hiddenCols: ['userId'], //Hide any column
+    labelCols:[{userId: '<i aria-hidden="true" class=" circle  user  icon"></i> <a>${userId}</a>'}],
+    hiddenCols: ['id'], //Hide any column
     footer: true, //add table footer
     /*eslint no-template-curly-in-string: "off"*/
     customCols: [{ 'title': '<i aria-hidden="true" class=" circle  info  icon"></i> content=${title}/>' }],

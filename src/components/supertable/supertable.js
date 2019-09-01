@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import _ from 'lodash'
 import './supertable.css'
-import Rows from './components/rows'
-import Thead from './components/thead'
-import Pager from './components/pager'
+import Rows from './children/rows'
+import Thead from './children/thead'
+import Pager from './children/pager'
 
 const SuperTable = props => {
     const options = props.options || {}
@@ -51,8 +51,10 @@ const SuperTable = props => {
                 updateJson(paginate(sortedJson, pageSize, inputValue - 1))
 
             }
-            updatePageNo(inputValue)
+             updatePageNo(inputValue)
         }
+      
+        e.target.select();
     }
 
     const pagingClick = (e) => {
@@ -88,7 +90,7 @@ const SuperTable = props => {
 
     const headerClick = (e) => {
         if (options.sortable !== false) {
-            const col = e.currentTarget.innerText
+            const col = e.currentTarget.id
             updateSortDirection(!sortDirection)
             let sorted = _.orderBy(props.json, col, sortDirection = sortDirection ? 'asc' : 'desc')
             updateSortedJson(sorted)
