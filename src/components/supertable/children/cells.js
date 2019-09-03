@@ -33,8 +33,9 @@ const Cells = props => {
             return isHidden ? null :
                 isCustom ? <td key={key} dangerouslySetInnerHTML={createMarkup(key, isCustom[key], row[key])}></td> :
                     isCellColorArr ? <td style={{ backgroundColor: row[key] }} key={key}></td> :
-                        isCheckBox && options.checkBox !== false ? <td key={key}> <input readOnly type='checkbox' checked={row[key]}></input></td> :
-                            <td key={key}>{row[key].toString()}</td>
+                        isCheckBox && options.checkBox !== false ? <td key={key}> <input readOnly type='checkbox' checked={row[key]}></input></td>
+                         :<td key={key}>{row[key].toString()}</td>
+                            
 
         })
     }
