@@ -11,19 +11,22 @@ const Home = props => {
     pageable: true, // Only Required- If you want paging
     pageSize:10,// Optional Defaults to 10
     labelCols:[{userId: '<i aria-hidden="true" class=" circle  user  icon"></i> <a>${userId}</a>'}],
-    hiddenCols: [], //Hide any column
     footer: true, //add table footer
     /*eslint no-template-curly-in-string: "off"*/
     customCols: [{ 'title': '<i aria-hidden="true" class=" circle  info  icon"></i> content=${title}/>' }],
     styles: "ui red padded striped celled fixed table",
     // NB SelectedRow backgroundColor can be set from SuperTable styles default ALice-Blue
   }
+  
   const carOptions = { 
     // Not Required- If the first col is an identity column
     editable: true, //
     pageable: true, // Only Required- If you want paging
     pageSize:21,// Optional Defaults to 10
     hiddenCols: ['id'], //Hide any column
+    dateCols:[{PurchaseDate:'en-GB'}], //specify locale info
+    dateOptions : { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }, //optional
+     //or specify locale  'en-GB'
     customCols: [{ 'BitCoin Address': '<i aria-hidden="true" class=" circle  info  icon"></i> content=${BitCoin Address}/>' }],
     styles: "ui red padded striped celled fixed table",
     // NB SelectedRow backgroundColor can be set from SuperTable styles default ALice-Blue
@@ -101,7 +104,6 @@ const Home = props => {
       <div>
       <SuperTable json={json} rowClick={rowClick} options={options} />
       <SuperTable json={cars} options={carOptions} /> 
-      <SuperTable json={''} options={options}   />
     </div>
     )
 }

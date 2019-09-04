@@ -8,6 +8,8 @@ const Cells = props => {
     const customColArr = options.customCols
     const cellColorArr = options.cellColor
     const hiddenColArr = options.hiddenCols
+    const dateColArr = options.dateCols
+    const dateOptions = options.dateOptions || {}
     const columns = Object.keys(props.row)
 
     const templateLiteral = (template, context = {}) => {
@@ -30,13 +32,15 @@ const Cells = props => {
             const isCustom = _.find(customColArr, key)
             const isCellColorArr = _.includes(cellColorArr, key)
             const isCheckBox = typeof row[key] === "boolean"
+            const isDate = _.find(dateColArr, key)
+            const locale= isDate ? dateColArr[key] :''
             return isHidden ? null :
                 isCustom ? <td key={key} dangerouslySetInnerHTML={createMarkup(key, isCustom[key], row[key])}></td> :
                     isCellColorArr ? <td style={{ backgroundColor: row[key] }} key={key}></td> :
                         isCheckBox && options.checkBox !== false ? <td key={key}> <input readOnly type='checkbox' checked={row[key]}></input></td>
-                         :<td key={key}>{row[key].toString()}</td>
+                         :isDate ?  <td key={key}>{new Date(row[key]).toLocaleDateString(locale,dateOptions)}</td> : 
+                         <td key={key}>{row[key].toString()}</td>
                             
-
         })
     }
     return (createCells(props.row))
