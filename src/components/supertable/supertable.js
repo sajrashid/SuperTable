@@ -4,7 +4,7 @@ import './supertable.css'
 import Rows from './children/rows'
 import Thead from './children/thead'
 import Pager from './children/pager'
-
+import Filters from './children/filters'
 const SuperTable = props => {
     const options = props.options || {}
     const pageable = options.pageable || false
@@ -19,8 +19,11 @@ const SuperTable = props => {
     const [json, updateJson] = useState(props.json || [])
     const styles = options.styles || ''
     const cssClasses = `supertable ${styles}`
-    let totalpages = props.json.length / pageSize;
-    totalpages = Math.ceil(totalpages)
+    const [totalpages, updateTotalPages] = useState(null)
+    const [pagedJson, updatePagedJson] = useState([])
+
+
+
     //pagination
     const paginate = (array, page_size, page_number) => {
         return array.slice(page_number * page_size, (page_number + 1) * page_size);
@@ -30,12 +33,16 @@ const SuperTable = props => {
     if (pageable && hasRan === false) {
         if (props.json.length > 0) {
             updateHasRan(true);
-            updateJson(paginate(props.json || [], pageSize, 0));
+            let data = paginate(props.json || [], pageSize, 0)
+            updateJson(data)
+            updatePagedJson(data)
+            updateTotalPages(Math.ceil(props.json.length / pageSize))
         }
     } else if (pageable === false && hasRan === false) {
         if (props.json.length > 0) {
             updateHasRan(true);
             updateJson(props.json);
+            updateTotalPages(Math.ceil(props.json.length / pageSize))
         }
     }
 
@@ -51,9 +58,9 @@ const SuperTable = props => {
                 updateJson(paginate(sortedJson, pageSize, inputValue - 1))
 
             }
-             updatePageNo(inputValue)
+            updatePageNo(inputValue)
         }
-      
+
         e.target.select();
     }
 
@@ -64,6 +71,7 @@ const SuperTable = props => {
         let newPageNo = 1
         switch (buttonName) {
             case 'first':
+                newPageNo = 1
                 break;
             case 'previous':
                 newPageNo = pageNo < 2 ? pageNo : pageNo - 1
@@ -101,34 +109,77 @@ const SuperTable = props => {
 
     const rowClick = (e) => {
         if (options.selectable !== false) {
-            updateSelectedRowId(e.currentTarget.id)
+            const idColIdx = options.idCol ? Object.keys(props.json[0]).indexOf(options.idCol) : 0
+            const json = props.json
+            let id = e.currentTarget.id
+            let objRow = {}
+            json.map((row) => {
+                let idx = row[Object.keys(row)[idColIdx]]
+                if (id.toString() === idx.toString()) {
+                    return objRow = row
+                }
+                return false
+            })
+
+            updateSelectedRowId(id)
+            if (props.rowClick) {
+                props.rowClick(id, objRow)
+            }
         }
     }
 
 
-    if (json.length > 0) {
-        return (
-            <table className={cssClasses}  >
-                <thead><tr>
-                    <Thead json={json} options={options} headerClick={headerClick} />
-                </tr></thead>
-                <tbody>
-                    <Rows json={json} options={options} selectedRowId={selectedRowId} rowClick={rowClick} />
-                </tbody>
-                <tfoot>
-                    <tr >
-                        {pageable &&
-                            <td style={{ minWidth: '200px' }}><div className='pagerDiv' >
-                                <Pager pagerIcons={pagerIcons} totalpages={totalpages} pagerInput={pagerInput} pageNo={pageNo} pagingClick={pagingClick} pagingInputChange={pagingInputChange} />
-                            </div></td>
-                        }
-                    </tr>
-                </tfoot>
-            </table>
-        )
+    const searchFilter = (searchText) => {
+        const newArr = []
+        for (let i = 0; i < props.json.length; i++) {
+            let obj = props.json[i];
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    const element = obj[key];
+                    if (element.toString().toLowerCase().includes(searchText.toLowerCase())) {
+                        newArr.push(obj)
+                    }
+                }
+            }
+        }
+        updateTotalPages(Math.ceil(newArr.length / pageSize))
+        updateJson(paginate(newArr, pageSize, pageNo - 1))
     }
-    return null
+
+
+
+    return (
+        <table className={cssClasses}  >
+            <thead>
+                {
+                    options.filters && <tr><Filters searchFilter={searchFilter} options={options} /></tr>
+                }
+                {
+                    json.length > 0 && <tr> <Thead json={json} options={options} headerClick={headerClick} /></tr>
+                }
+            </thead>
+            <tbody>
+                {
+                    json.length > 0 && <Rows json={json} options={options} selectedRowId={selectedRowId} rowClick={rowClick} />
+                }
+                {
+                    json.length < 1 && <tr><td>Empty</td></tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr >
+                    {
+                        pageable &&
+                        <td style={{ minWidth: '200px' }}><div className='pagerDiv' >
+                            <Pager pagerIcons={pagerIcons} totalpages={totalpages} pagerInput={pagerInput} pageNo={pageNo} pagingClick={pagingClick} pagingInputChange={pagingInputChange} />
+                        </div></td>
+                    }
+                </tr>
+            </tfoot>
+        </table>
+    )
 }
+
 export default SuperTable;
 
 

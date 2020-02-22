@@ -25,8 +25,9 @@ const thead = props => {
         return columns.map((key) => {
             const isHidden = _.includes(hiddenColArr, key)
             const isLabel = _.find(labelColsArr, key)
-            return isHidden ? null : isLabel ? <th id={key} key={key} onClick={props.headerClick} dangerouslySetInnerHTML={createMarkup(key, isLabel[key], key)}  ></th>
-                : <th id={key} key={key} onClick={props.headerClick} >{key}</th>
+            return isHidden ? null :
+                isLabel ? <th id={key} key={key} onClick={props.headerClick} dangerouslySetInnerHTML={createMarkup(key, isLabel[key], key)}  ></th>
+                    : <th id={key} key={key} onClick={props.headerClick} >{key}</th>
         })
     }
 
