@@ -3,12 +3,12 @@ node_js:
   - 10
 deploy:
   provider: pages
-  skip_cleanup: true
-  github_token: 5352f5e7392573d2ec202609f6b9f581380683bf  # Set in the settings page of your repository, as a secure variable
+  cleanup: true
+  token: 5352f5e7392573d2ec202609f6b9f581380683bf  # Set in the settings page of your repository, as a secure variable
   keep_history: false
   on:
     branch: develop
   project_name: SuperTable
-  cache: yarn
-  install: true
-  script: echo "npm test temporarily disabled"
+cache: yarn
+install: true
+script: echo "npm test temporarily disabled"
