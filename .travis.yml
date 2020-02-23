@@ -9,3 +9,4 @@ deploy:
   on:
     branch: develop
   project_name: SuperTable
+  cache: yarn
