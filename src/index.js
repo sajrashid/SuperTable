@@ -5,13 +5,19 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { BrowserRouter} from 'react-router-dom'
 import 'semantic-ui-css/semantic.min.css'
-
+import blankImg from "./images/blank.png"
 render(
-    <BrowserRouter >
+  <div id="root">
+  <div className="full-page-loader">
+    <img width="0" height="0" src={blankImg} className="App-logo" alt="blankImg" />
+  </div>
+  <BrowserRouter >
     <div>
        <App/>
      </div>
-</BrowserRouter>, 
+</BrowserRouter>
+</div>, 
+
 document.getElementById('root')
 );
 
