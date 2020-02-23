@@ -10,3 +10,4 @@ deploy:
     branch: develop
   project_name: SuperTable
   cache: yarn
+  install: true
