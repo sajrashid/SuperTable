@@ -4,7 +4,6 @@ node_js:
 deploy:
   provider: pages
   cleanup: true
-  token: tik  # Set in the settings page of your repository, as a secure variable
   keep_history: false
   on:
     branch: develop
