@@ -20,10 +20,7 @@ const SuperTable = props => {
     const styles = options.styles || ''
     const cssClasses = `supertable ${styles}`
     const [totalpages, updateTotalPages] = useState(null)
-    const [pagedJson, updatePagedJson] = useState([])
-
-
-
+   
     //pagination
     const paginate = (array, page_size, page_number) => {
         return array.slice(page_number * page_size, (page_number + 1) * page_size);
@@ -35,7 +32,7 @@ const SuperTable = props => {
             updateHasRan(true);
             let data = paginate(props.json || [], pageSize, 0)
             updateJson(data)
-            updatePagedJson(data)
+           
             updateTotalPages(Math.ceil(props.json.length / pageSize))
         }
     } else if (pageable === false && hasRan === false) {
@@ -133,7 +130,9 @@ const SuperTable = props => {
         const newArr = []
         for (let i = 0; i < props.json.length; i++) {
             let obj = props.json[i];
-            for (const key in obj) {
+            /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "[kK]ey" }]*/
+            for (let key in obj) {
+                   /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "[kK]ey" }]*/
                 if (obj.hasOwnProperty(key)) {
                     const element = obj[key];
                     if (element.toString().toLowerCase().includes(searchText.toLowerCase())) {
@@ -150,13 +149,8 @@ const SuperTable = props => {
 
     return (
         <table className={cssClasses}  >
-            <thead>
-                {
-                    options.filters && <tr><Filters searchFilter={searchFilter} options={options} /></tr>
-                }
-                {
-                    json.length > 0 && <tr> <Thead json={json} options={options} headerClick={headerClick} /></tr>
-                }
+            <thead>{options.filters&&<tr><Filters searchFilter={searchFilter} options={options}/></tr>}
+                {json.length > 0 && <tr><Thead json={json} options={options} headerClick={headerClick}/></tr>}
             </thead>
             <tbody>
                 {
@@ -167,14 +161,7 @@ const SuperTable = props => {
                 }
             </tbody>
             <tfoot>
-                <tr >
-                    {
-                        pageable &&
-                        <td style={{ minWidth: '200px' }}><div className='pagerDiv' >
-                            <Pager pagerIcons={pagerIcons} totalpages={totalpages} pagerInput={pagerInput} pageNo={pageNo} pagingClick={pagingClick} pagingInputChange={pagingInputChange} />
-                        </div></td>
-                    }
-                </tr>
+                <tr>{pageable && <td style={{ minWidth: '200px' }}><div className='pagerDiv' > <Pager pagerIcons={pagerIcons} totalpages={totalpages} pagerInput={pagerInput} pageNo={pageNo} pagingClick={pagingClick} pagingInputChange={pagingInputChange}/></div></td>}</tr>
             </tfoot>
         </table>
     )
