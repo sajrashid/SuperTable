@@ -4,7 +4,7 @@ node_js:
 deploy:
   provider: pages
   cleanup: true
-  token: 5352f5e7392573d2ec202609f6b9f581380683bf  # Set in the settings page of your repository, as a secure variable
+  token: tik  # Set in the settings page of your repository, as a secure variable
   keep_history: false
   on:
     branch: develop
@@ -12,3 +12,7 @@ deploy:
 cache: yarn
 install: true
 script: echo "npm test temporarily disabled"
+env:
+  global:
+    - CAMPFIRE_TOKEN=abc123
+      - TIMEOUT=1000
