@@ -1,8 +1,8 @@
 import React, { useState } from "react"
-import _ from 'lodash'
+// import _ from 'lodash'
 
  const Filters = props => {
-    const options = props.options
+    // const options = props.options
     let  [searchFilter, updateSearchFilter] = useState()
 
     const createfilters = () => {

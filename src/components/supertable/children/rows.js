@@ -10,13 +10,8 @@ const row = props => {
 
     const createRows = () => {
         return json.map((row, index) => {
-            const rowId = row[Object.keys(row)[idColIdx]]
-            return <tr
-                onClick={props.rowClick} id={rowId} key={index}
-                // eslint-disable-next-line
-                className={props.selectedRowId == rowId ? "selectedRow" : ""}   >
-                <Cells row={row} options={options} />
-            </tr>
+            const rowId = row[Object.keys(row)[idColIdx]] // eslint-disable-next-line
+            return <tr onClick={props.rowClick} id={rowId} key={index} className={props.selectedRowId == rowId ? "selectedRow" : ""}><Cells row={row} options={options} /></tr>
         })
     }
 
