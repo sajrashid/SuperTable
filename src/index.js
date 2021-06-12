@@ -8,7 +8,7 @@ import 'semantic-ui-css/semantic.min.css'
 import blankImg from "./images/blank.png"
 render(
   <div id="root">
-  <div className="full-page-loader">
+  <div className="">
     <img width="0" height="0" src={blankImg} className="App-logo" alt="blankImg" />
   </div>
   <BrowserRouter >

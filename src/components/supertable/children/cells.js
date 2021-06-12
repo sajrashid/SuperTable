@@ -1,7 +1,7 @@
 
 import React from "react";
 import _ from 'lodash'
-
+import helper from "../helpers/helper"
 
 const Cells = props => {
     const options = props.options
@@ -12,19 +12,7 @@ const Cells = props => {
     const dateOptions = options.dateOptions || {}
     const columns = Object.keys(props.row)
 
-    const templateLiteral = (template, context = {}) => {
-        return template.replace(/\$\{\s*(.+?)\s*\}/g, (match, p1) => {
-            const value = _.get(context, p1, '')
-            return value === null ? '' : value
-        });
-    };
 
-    const createMarkup = (key, str, replaceValue) => {
-        const result = templateLiteral(str, {
-            [key]: replaceValue
-        });
-        return { __html: result }
-    }
 
     const createCells = (row) => {
         return columns.map((key) => {
@@ -35,7 +23,7 @@ const Cells = props => {
             const isDate = _.find(dateColArr, key)
             const locale= isDate ? dateColArr[key] :''
             return isHidden ? null :
-                isCustom ? <td key={key} dangerouslySetInnerHTML={createMarkup(key, isCustom[key], row[key])}></td> :
+                isCustom ? <td key={key} dangerouslySetInnerHTML={helper.createMarkupLiteral(key, isCustom[key], row[key])}></td> :
                     isCellColorArr ? <td style={{ backgroundColor: row[key] }} key={key}></td> :
                         isCheckBox && options.checkBox !== false ? <td key={key}> <input readOnly type='checkbox' checked={row[key]}></input></td>
                          :isDate ?  <td key={key}>{new Date(row[key]).toLocaleDateString(locale,dateOptions)}</td> : 
