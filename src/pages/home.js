@@ -8,6 +8,8 @@ const Home = props => {
   const options = { 
     idCol:'id', // Not Required- If the first col is an identity column
     editable: true, //
+    filters:true,
+    searchInputCss:'searchInputCss',
     pageable: true, // Only Required- If you want paging
     pageSize:10,// Optional Defaults to 10
     labelCols:[{userId: '<i aria-hidden="true" class=" circle  user  icon"></i> <a>${userId}</a>'}],
@@ -33,59 +35,11 @@ const Home = props => {
   }
   let [json, updateJson] = useState(null)
 
-  // var NumberOfWords = 28
-  // var words =  []
-  // words[1] = "escapology"
-  // words[2] = "brightwork"
-  // words[3] = "verkrampte"
-  // words[4] = "protectrix"
-  // words[5] = "nudibranch"
-  // words[6] = "grandchild"
-  // words[7] = "newfangled"
-  // words[8] = "flugelhorn"
-  // words[9] = "mythologer"
-  // words[10] = "pluperfect"
-  // words[11] = "jellygraph"
-  // words[12] = "quickthorn"
-  // words[13] = "rottweiler"
-  // words[14] = "technician"
-  // words[15] = "cowpuncher"
-  // words[16] = "middlebrow"
-  // words[17] = "jackhammer"
-  // words[18] = "triphthong"
-  // words[19] = "wunderkind"
-  // words[20] = "dazzlement"
-  // words[21] = "jabberwock"
-  // words[22] = "witchcraft"
-  // words[23] = "pawnbroker"
-  // words[24] = "thumbprint"
-  // words[25] = "motorcycle"
-  // words[26] = "cryptogram"
-  // words[27] = "torchlight"
-  // words[28] = "bankruptcy"
-
-  // let jsonArr=[]
-  // for (let i = 0; i < 10000; i++) {
-  //   var rnd = Math.ceil(Math.random() * NumberOfWords)
-  //   jsonArr.push({'id':i, 'ColA': words[rnd] + " " + words[rnd], 'ColB': words[rnd] + " " + words[rnd]+ " " + words[rnd],'ColC': words[rnd] + " " + words[rnd]+ " " + words[rnd]  + " " + words[rnd]+ " " + words[rnd] ,  'ColD': words[rnd] + " " + words[rnd],'ColE': words[rnd] + " " + words[rnd], })
-  // }
-  // let [jsonBig] = useState(jsonArr)
-
-
-
-
-
-
 
 
   const rowClick = (id,row) => {
    // id as string row as selectedRow object
   }
-
-
-
-
-
 
   useEffect(() => {
     async function fetchAPI() {

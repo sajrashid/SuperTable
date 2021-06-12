@@ -26,6 +26,7 @@ const SuperTable = props => {
     };
     const pagerIcons = { first: '&lsaquo;', previous: '&laquo;', next: '&raquo', last: '&rsaquo;' }
 
+    //run once
     useEffect(()=>{
         if(pageable && props.json.length > 0 ){
             updateJson(paginate(props.json || [], pageSize, 0))
@@ -37,6 +38,7 @@ const SuperTable = props => {
         }
     },[pageable,pageSize, props.json])
 
+    // events
     const pagingInputChange = (e) => {
         e.preventDefault()
         const el = e.currentTarget
@@ -85,7 +87,6 @@ const SuperTable = props => {
         updatePagerInput(newPageNo)
         updatePageNo(newPageNo)
     }
-    //end pagination
 
     const headerClick = (e) => {
         if (options.sortable !== false) {
@@ -124,9 +125,7 @@ const SuperTable = props => {
         const newArr = []
         for (let i = 0; i < props.json.length; i++) {
             let obj = props.json[i];
-            /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "[kK]ey" }]*/
             for (let key in obj) {
-                   /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "[kK]ey" }]*/
                 if (obj.hasOwnProperty(key)) {
                     const element = obj[key];
                     if (element.toString().toLowerCase().includes(searchText.toLowerCase())) {
@@ -138,8 +137,7 @@ const SuperTable = props => {
         updateTotalPages(Math.ceil(newArr.length / pageSize))
         updateJson(paginate(newArr, pageSize, pageNo - 1))
     }
-
-
+    
 
     return (
         <table className={cssClasses}  >

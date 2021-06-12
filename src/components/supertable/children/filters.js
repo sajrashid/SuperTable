@@ -1,18 +1,20 @@
 import React, { useState } from "react"
-// import _ from 'lodash'
 
- const Filters = props => {
-    // const options = props.options
-    let  [searchFilter, updateSearchFilter] = useState()
-
+const Filters = props => {
+    const options = props.options
+    const searchInputCss=options.searchInputCss || ''
+    let [searchFilter, updateSearchFilter] = useState('')
     const createfilters = () => {
         const searchFilterChange = (e) => {
             updateSearchFilter(e.currentTarget.value)
             props.searchFilter(e.currentTarget.value)
         }
-       
-       return   <input onChange={searchFilterChange}  type='text' value={searchFilter}></input>
-       
+
+        return <td className={searchInputCss}>
+            <span>
+                <input placeholder="type..." onChange={searchFilterChange} type='text' value={searchFilter}></input>
+            </span>
+        </td>
     }
 
     return (
