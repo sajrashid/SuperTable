@@ -1,11 +1,14 @@
-topmenu {
- 
-    background-color: rgb(209, 209, 209) !important;
-
+.topmenu {
+    background-color: rgb(209, 209, 209) ;
+    width: 100%;
+    padding: 1em;
 }
 .topmenu a {
     color:#2b2b2b;
 font-size:x-large;
+float: left;
+margin-right: 0.6em;
+margin-left: 1em;
 }
 .topmenu i {
     color:#555;
