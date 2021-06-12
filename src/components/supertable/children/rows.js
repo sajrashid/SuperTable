@@ -7,7 +7,6 @@ const row = props => {
     const idColIdx = options.idCol ? Object.keys(props.json[0]).indexOf(options.idCol) : 0
     const json = props.json
 
-
     const createRows = () => {
         return json.map((row, index) => {
             const rowId = row[Object.keys(row)[idColIdx]] // eslint-disable-next-line

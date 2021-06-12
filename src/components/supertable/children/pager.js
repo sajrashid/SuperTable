@@ -4,13 +4,10 @@ import helper from "../helpers/helper"
 const pager = props => {
     const handleFocus = (e) => e.target.select();
 
- 
-
     const createPager = () => {
         let arr = Object.keys(props.pagerIcons)
       
         return arr.map((key, index) => {
-           
             const html = props.pagerIcons[key]
            
             if (index === 2) {

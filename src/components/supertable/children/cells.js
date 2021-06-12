@@ -1,4 +1,3 @@
-
 import React from "react";
 import _ from 'lodash'
 import helper from "../helpers/helper"
@@ -11,8 +10,6 @@ const Cells = props => {
     const dateColArr = options.dateCols
     const dateOptions = options.dateOptions || {}
     const columns = Object.keys(props.row)
-
-
 
     const createCells = (row) => {
         return columns.map((key) => {

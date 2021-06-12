@@ -1,6 +1,4 @@
-
 import _ from 'lodash'
-
 
 function templateLiteral(template, context = {}) {
     return template.replace(/\$\{\s*(.+?)\s*\}/g, (match, p1) => {
@@ -21,8 +19,6 @@ const helper = {
         return { __html: html }
     },
 
-
 }
-
 
 export default helper
