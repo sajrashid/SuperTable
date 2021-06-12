@@ -12,7 +12,7 @@ const Filters = props => {
 
         return <td className={searchInputCss}>
             <span>
-                <input placeholder="type..." onChange={searchFilterChange} type='text' value={searchFilter}></input>
+                <input placeholder="Search..." onChange={searchFilterChange} type='text' value={searchFilter}></input>
             </span>
         </td>
     }
