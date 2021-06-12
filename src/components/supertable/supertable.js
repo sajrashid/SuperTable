@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import _ from 'lodash'
 import './supertable.css'
 import Rows from './children/rows'
@@ -14,7 +14,6 @@ const SuperTable = props => {
     const [pagerInput, updatePagerInput] = useState(1)
     let [sortDirection, updateSortDirection] = useState(false)
     const [pageNo, updatePageNo] = useState(1)
-    const [hasRan, updateHasRan] = useState(false)
 
     const [json, updateJson] = useState(props.json || [])
     const styles = options.styles || ''
@@ -27,21 +26,16 @@ const SuperTable = props => {
     };
     const pagerIcons = { first: '&lsaquo;', previous: '&laquo;', next: '&raquo', last: '&rsaquo;' }
 
-    if (pageable && hasRan === false) {
-        if (props.json.length > 0) {
-            updateHasRan(true);
-            let data = paginate(props.json || [], pageSize, 0)
-            updateJson(data)
-           
+    useEffect(()=>{
+        if(pageable && props.json.length > 0 ){
+            updateJson(paginate(props.json || [], pageSize, 0))
             updateTotalPages(Math.ceil(props.json.length / pageSize))
-        }
-    } else if (pageable === false && hasRan === false) {
-        if (props.json.length > 0) {
-            updateHasRan(true);
+
+        }else{
             updateJson(props.json);
             updateTotalPages(Math.ceil(props.json.length / pageSize))
         }
-    }
+    },[pageable,pageSize, props.json])
 
     const pagingInputChange = (e) => {
         e.preventDefault()
