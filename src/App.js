@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Switch, Route } from 'react-router-dom'
+import {BrowserRouter,  Switch, Route } from 'react-router-dom'
 import Home from './pages/home'
 import Examples from './pages/examples'
 import TopMenu from './components/menu/topMenu'
@@ -14,10 +14,12 @@ function App() {
         <TopMenu />
       </header>
       <div className='contentWrap'>
+      <BrowserRouter>
         <Switch>
           <Route exact path='/' component={Home} />
           <Route path='/examples' component={Examples} />
         </Switch>
+        </BrowserRouter>
       </div>
     </div>
   );

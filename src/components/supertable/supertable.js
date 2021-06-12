@@ -31,7 +31,7 @@ const SuperTable = props => {
             updateJson(paginate(props.json || [], pageSize, 0))
             updateTotalPages(Math.ceil(props.json.length / pageSize))
 
-        }else{
+        }else if (props.json.length > 0){
             updateJson(props.json);
             updateTotalPages(Math.ceil(props.json.length / pageSize))
         }
