@@ -55,7 +55,7 @@ const Home = props => {
       return <div className="lds-facebook"><div></div><div></div><div></div></div>
     }
     return (
-      <div>
+      <div className="w-full h-full p-4">
       <SuperTable json={json} rowClick={rowClick} options={options} />
       <SuperTable json={cars} options={carOptions} /> 
     </div>

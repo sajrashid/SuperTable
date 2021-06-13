@@ -9,8 +9,7 @@
     height: 5em;
 }
 .supertable>thead>tr .searchInputCss{
-    display: inline-block;
-    
+    float: left;
 }
 .supertable>thead>tr .searchInputCss span {
     width: 100%;
