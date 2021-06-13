@@ -1,31 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './topMenu.css';
 import { NavLink } from 'react-router-dom'
-import { setTheme  } from '../../helpers/setTheme'
+import { setTheme } from '../../helpers/setTheme'
 
 const TopMenu = props => {
-    const [togClass, setTogClass] = useState('dark');
-    let theme = localStorage.getItem('theme');
+
     const handleOnClick = () => {
-        if (localStorage.getItem('theme') === 'theme-dark') {
-            setTheme('theme-light');
-            setTogClass('light')
-        } else {
-            setTheme('theme-dark');
-            setTogClass('dark')
-        }
-      }
+        localStorage.getItem('theme') === 'theme-dark' ?
+            setTheme('theme-light') : setTheme('theme-dark')
+    }
 
-      useEffect(() => {
-        if (localStorage.getItem('theme') === 'theme-dark') {
-            setTogClass('dark')
-        } else if (localStorage.getItem('theme') === 'theme-light') {
-            setTogClass('light')
-        }
-    }, [theme])
+    useEffect(() => {
+        localStorage.getItem('theme') === 'theme-dark' ?
+        setTheme('theme-light') : setTheme('theme-dark')
+    }, [])
+    
     return (
-
-        <div className="ui topmenu stackable menu">
+        <div className="topmenu menu .dark:bg-dark-700 .light:bg-light-300">
             <div className="item">
                 <NavLink to='/' exact={true} >
                     <i aria-hidden="true" className="home icon 2x" ></i>
@@ -39,16 +30,15 @@ const TopMenu = props => {
                 </NavLink>
             </div>
             <div className="container--toggle">
-            {
-                togClass === "light" ?
-                <input type="checkbox" id="toggle" className="toggle--checkbox" onClick={handleOnClick} checked />
-                :
+
+                <a className="text-xs" href='https://dev.to/abbeyperini/toggle-dark-mode-in-react-28c9'>Theme switcher implemented from...</a>
+
                 <input type="checkbox" id="toggle" className="toggle--checkbox" onClick={handleOnClick} />
-            }
-            <label htmlFor="toggle" className="toggle--label">
-                <span className="toggle--label-background"></span>
-            </label>
-        </div>
+
+                <label htmlFor="toggle" className="toggle--label">
+                    <span className="toggle--label-background"></span>
+                </label>
+            </div>
         </div>
     )
 }
