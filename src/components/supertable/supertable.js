@@ -119,7 +119,13 @@ const SuperTable = props => {
             }
         }
     }
-
+    const deleteObjectItemByValue = (Obj) => {
+        for (var key in Obj) {
+                 Obj[key]='';
+           }
+        return Obj;
+        }
+ 
 
     const searchFilter = (searchText) => {
         const newArr = []
@@ -133,6 +139,10 @@ const SuperTable = props => {
                     }
                 }
             }
+        }
+       
+        if (newArr.length <1){
+            newArr.push(deleteObjectItemByValue(props.json[0]))
         }
         updateTotalPages(Math.ceil(newArr.length / pageSize))
         updateJson(paginate(newArr, pageSize, pageNo - 1))

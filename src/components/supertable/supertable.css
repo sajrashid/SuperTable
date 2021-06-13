@@ -1,13 +1,8 @@
 .supertable>thead>tr>th{
-    cursor: pointer!important;
+    cursor: pointer;
 }
-.supertable > thead tr {
-    width: 100%;
-    position: relative;
-}
-.supertable>thead>tr {
-    height: 5em;
-}
+
+
 .supertable>thead>tr .searchInputCss{
     float: left;
 }

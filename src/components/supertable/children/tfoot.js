@@ -2,7 +2,9 @@ import React from "react";
 import helper from "../helpers/helper"
 
 const tfoot = props => {
-
+    const options = props.options
+    const styles = options.tfootStyles || ''
+    const cssClasses = ` ${styles}`
     const pagerIcons= props.pagerIcons
     const createFooter = () => {
         let arr = Object.keys(pagerIcons)
@@ -17,13 +19,12 @@ const tfoot = props => {
             if (index === 3) {
                 return <React.Fragment  key={index}>
                     <button  id={key} onClick={props.pagingClick} dangerouslySetInnerHTML={helper.createMarkup(html)}></button>
-                    <div  className='pageCounter'>{props.pageNo}&nbsp;of&nbsp;{props.totalpages}&nbsp;pages</div>
+                    <div  className={cssClasses}>{props.pageNo}&nbsp;of&nbsp;{props.totalpages}&nbsp;pages</div>
                 </React.Fragment>
             }
             return <button  key={index} id={key} onClick={props.pagingClick} dangerouslySetInnerHTML={helper.createMarkup(html)}></button>
         })
     }
-
 
     return (
         {createFooter}
