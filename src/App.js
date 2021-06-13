@@ -1,11 +1,15 @@
-import React from 'react';
+import React, {  useEffect } from "react";
 import './App.css';
 import {BrowserRouter,  Switch, Route } from 'react-router-dom'
 import Home from './pages/home'
 import Examples from './pages/examples'
 import TopMenu from './components/menu/topMenu'
+import { keepTheme } from './helpers/setTheme';
 
 function App() {
+      useEffect(() => {
+        keepTheme();
+    })
   return (
     <div className="App">
       

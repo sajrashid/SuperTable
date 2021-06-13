@@ -16,7 +16,7 @@ const Home = props => {
     footer: true, //add table footer
     /*eslint no-template-curly-in-string: "off"*/
     customCols: [{ 'title': '<i aria-hidden="true" class=" circle  info  icon"></i> content=${title}/>' }],
-    styles: "ui red padded striped celled fixed table",
+    styles: "table",
     // NB SelectedRow backgroundColor can be set from SuperTable styles default ALice-Blue
   }
   
@@ -30,7 +30,7 @@ const Home = props => {
     dateOptions : { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }, //optional
      //or specify locale  'en-GB'
     customCols: [{ 'BitCoin Address': '<i aria-hidden="true" class=" circle  info  icon"></i> content=${BitCoin Address}/>' }],
-    styles: "ui red padded striped celled fixed table",
+    styles: "table",
     // NB SelectedRow backgroundColor can be set from SuperTable styles default ALice-Blue
   }
   let [json, updateJson] = useState(null)
