@@ -5,7 +5,7 @@ const API = axios.create({
     headers: { 'Accept': 'application/json'}
   })
 
-export default {
+export  default  {
   getIPosts: params => API.get('posts', { params }),
   createItem: item => API.post('posts', item),
   // etc.
