@@ -1,4 +1,4 @@
-import { render, getByText } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import Rows from "./rows";
 import pretty from "pretty";
 import data from "../../../data.json";
