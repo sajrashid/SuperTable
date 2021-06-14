@@ -11,9 +11,7 @@ function App() {
         keepTheme();
     })
   return (
-    <div className="App">
-      
-     
+    <div className="h-full App">
       <BrowserRouter>
       <header className="App-header">
       <TopMenu  />
@@ -23,8 +21,7 @@ function App() {
           <Route path='/examples' component={Examples} />
         </Switch>
         </BrowserRouter>
-        <div className='contentWrap'>
-      </div>
+        
     </div>
   );
 }

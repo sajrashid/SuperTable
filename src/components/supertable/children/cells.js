@@ -24,8 +24,8 @@ const Cells = props => {
             return isHidden ? null :
                 isCustom ? <td className={cssClasses} key={key} dangerouslySetInnerHTML={helper.createMarkupLiteral(key, isCustom[key], row[key])}></td> :
                     isCellColorArr ? <td className={cssClasses} style={{ backgroundColor: row[key] }} key={key}></td> :
-                        isCheckBox && options.checkBox !== false ? <td className={cssClasses} key={key}> <input readOnly type='checkbox' checked={row[key]}></input></td>
-                         :isDate ?  <td className={cssClasses} key={key}>{new Date(row[key]).toLocaleDateString(locale,dateOptions)}</td> : 
+                        isCheckBox && options.checkBox !== false ? <td className={cssClasses} key={key}> <input readOnly type='checkbox' checked={row[key]}></input></td>:
+                         isDate ?  <td className={cssClasses} key={key}>{new Date(row[key]).toLocaleDateString(locale,dateOptions)}</td> : 
                          <td className={cssClasses} key={key}>{row[key].toString()}</td>
                             
         })

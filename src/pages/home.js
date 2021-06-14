@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import SuperTable from '../components/supertable/supertable'
 import Simple from "./examples/simple";
 import './home.css'
+import Banner  from "../components/banner";
 import cars from '../data.json';
 
 const Home = props => {
- 
+
 
   // Table options not required for defaults
   const options = {
@@ -58,8 +59,9 @@ const Home = props => {
     return <div className="lds-facebook"><div></div><div></div><div></div></div>
   }
   return (
-    <div className="w-full h-full p-4">
-      <Simple/>
+    <div className="w-full h-full">
+      <Banner/>
+      <Simple />
 
       {/* <SuperTable json={json} rowClick={rowClick} options={options} />
       <SuperTable json={cars} options={carOptions} /> */}

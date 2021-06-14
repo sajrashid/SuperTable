@@ -45,12 +45,7 @@ const SuperTable = props => {
         let inputValue = parseInt(el.value)
         if ((inputValue < totalpages + 1) && (inputValue > 0)) {
             updatePagerInput(inputValue)
-            if (sortedJson.length < 1) {
-                updateJson(paginate(props.json, pageSize, inputValue - 1))
-            } else {
-                updateJson(paginate(sortedJson, pageSize, inputValue - 1))
-
-            }
+            sortedJson.length < 1 ? updateJson(paginate(props.json, pageSize, inputValue - 1)) : updateJson(paginate(sortedJson, pageSize, inputValue - 1))
             updatePageNo(inputValue)
         }
 
@@ -128,7 +123,10 @@ const SuperTable = props => {
  
 
     const searchFilter = (searchText) => {
-        const newArr = []
+        let newArr = []
+        if(searchText.length <1){
+            newArr=props.json
+        }
         for (let i = 0; i < props.json.length; i++) {
             let obj = props.json[i];
             for (let key in obj) {
@@ -141,9 +139,6 @@ const SuperTable = props => {
             }
         }
        
-        if (newArr.length <1){
-            newArr.push(deleteObjectItemByValue(props.json[0]))
-        }
         updateTotalPages(Math.ceil(newArr.length / pageSize))
         updateJson(paginate(newArr, pageSize, pageNo - 1))
     }
