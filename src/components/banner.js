@@ -12,7 +12,7 @@ const banner = props => {
                     <div className='relative pt-1 text-sm text-left text-green-200 bg-gray-800 -top-6'>
                        <span className="p-2">Usage</span> 
                         <h2 className="relative p-2 text-xl text-white bg-gray-600"><span>&#60;</span><span className="text-green-600">SuperTable</span> 
-                        <span className="text-blue-400"> json</span>=<span className="text-yellow-400">&#123;</span><span className="text-green-600">json</span>
+                        <span className="text-blue-400"> json</span>=<span className="text-yellow-400">&#123;</span><span className="text-indigo-200">json</span>
                          <span className="text-yellow-400">&#125;</span><span>&#47;</span><span>&#62;</span></h2>
                     
                     </div>

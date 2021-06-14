@@ -16,6 +16,8 @@ const SuperTable = props => {
     const [pageNo, updatePageNo] = useState(1)
 
     const [json, updateJson] = useState(props.json || [])
+    const [jsonCopy, updateJsonCopy] = useState(props.json || [])
+    
     const styles = options.styles || ''
     const cssClasses = `supertable ${styles}`
     const [totalpages, updateTotalPages] = useState(null)
@@ -114,33 +116,27 @@ const SuperTable = props => {
             }
         }
     }
-    const deleteObjectItemByValue = (Obj) => {
-        for (var key in Obj) {
-                 Obj[key]='';
-           }
-        return Obj;
-        }
- 
+
 
     const searchFilter = (searchText) => {
-        let newArr = []
-        if(searchText.length <1){
-            newArr=props.json
-        }
-        for (let i = 0; i < props.json.length; i++) {
-            let obj = props.json[i];
-            for (let key in obj) {
-                if (obj.hasOwnProperty(key)) {
-                    const element = obj[key];
-                    if (element.toString().toLowerCase().includes(searchText.toLowerCase())) {
-                        newArr.push(obj)
+
+       var result =[]
+        if (searchText.length <1) {
+            result=jsonCopy
+        }else{
+            for(var i=0; i<jsonCopy.length; i++) {
+                for(var item in jsonCopy[i]) {
+                    var str =jsonCopy[i][item].toString().toLowerCase();
+                    if(str.includes(searchText.toLowerCase())) {
+                        result.push(jsonCopy[i]);
+                          console.log(result,)
                     }
                 }
-            }
+              }
         }
-       
-        updateTotalPages(Math.ceil(newArr.length / pageSize))
-        updateJson(paginate(newArr, pageSize, pageNo - 1))
+
+        updateTotalPages(Math.ceil(result.length / pageSize))
+        updateJson(paginate(result, pageSize, pageNo - 1))
     }
     
 

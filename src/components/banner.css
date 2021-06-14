@@ -1,7 +1,7 @@
 
 .banner {
-     background-image: url('../images/hero.svg'); 
-    background-size:contain ; background-repeat: no-repeat;
+     /* background-image: url('../images/superhero.png');  */
+    /* background-size:contain ; background-repeat: no-repeat; */
     background-position: 70%;
     height: 600px;
     width: 100%;
@@ -11,6 +11,7 @@
     align-items: right;
     margin-bottom: 32px;
     font-family: 'Baloo Paaji 2', cursive;
+    box-shadow: 0 0 8px 8px #222 inset;
   }
   .banner .code {
     opacity: 0.7; 
@@ -27,7 +28,7 @@
   }
   @media (max-width: 576px) {
     .banner {
-       background-image: url('../images/hero.svg'); 
+       /* background-image: url('../images/superhero.png');  */
         align-items: flex-start;
         height: 400px;
     }

@@ -4,26 +4,24 @@
 
 
 .supertable>thead>tr .searchInputCss{
-    float: left;
+    padding: 0.5rem 0 0.5rem 0.5rem;
+
 }
 .supertable>thead>tr .searchInputCss span {
     width: 100%;
-    position: absolute;
-    background-color: #eee;
-    padding: 0.6em;
 }
 .supertable>thead>tr .searchInputCss input {
-    display: inline;
-    position: relative;
-    min-height: 2.8rem;
-    float: right;
-    left: -1em;
+    min-height: 2.6rem;
     padding: 0.3em;
     font-size: large;
     border-radius: 0.3em;
     border: #999 solid 1px;
     border-radius: 0.3em;
     color: rgb(170, 114, 114);
+}
+.supertable>thead>tr .searchInputCss input:focus {
+    outline: none !important;
+    box-shadow: 0 0 0.3em #719ECE;
 }
 .supertable>tfoot>tr>td>a {
     cursor: pointer;
@@ -41,7 +39,6 @@
 .supertable .pagerDiv {
 display: inline-block;
 padding: 0.5em;
-min-height: 2.4em;
 background-color: #f7f7f7;
 min-width: 230px;
  }

@@ -6,6 +6,7 @@ const Simple = props => {
     const data = [{ 'num': 0, 'Name': 'abc', 'IsReady': true }, { 'num': 1, 'Name': 'XYZ', 'IsReady': false }, { 'num': 3, 'Name': 'Cat', 'IsReady': true }]
     const options = {
         styles: 'table-fixed w-full',
+        searchInputCss:'searchInputCss',
         cellStyles: 'border px-8 py-4 ',
         theadStyles: 'bg-blue-100 border  px-8 py-4',
         filters:true
