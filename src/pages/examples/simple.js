@@ -1,13 +1,16 @@
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import SyntaxHighlighter from 'react-syntax-highlighter'
+import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import SuperTable from "../../components/supertable/supertable"
 import './simple.css'
+import cars from '../../data.json'
 const Simple = props => {
     const data = [{ 'num': 0, 'Name': 'abc', 'IsReady': true }, { 'num': 1, 'Name': 'XYZ', 'IsReady': false }, { 'num': 3, 'Name': 'Cat', 'IsReady': true }]
+  
     const options = {
         styles: 'table-fixed w-full',
         searchInputCss:'searchInputCss',
         cellStyles: 'border px-8 py-4 ',
+        pageable:true,
         theadStyles: 'bg-blue-100 border  px-8 py-4',
         filters:true
     }
@@ -61,7 +64,7 @@ const Simple = props => {
 
                         </div>
                         <div className="w-full p-4 mb-4 bg-white" >
-                            <SuperTable json={data} options={options} />
+                            <SuperTable json={cars} options={options} />
                         </div>
                     </div>
                 </div>
