@@ -7,7 +7,7 @@ import Pager from './children/pager'
 import Filters from './children/filters'
 const SuperTable = props => {
     const options = props.options || {}
-    const pageable = options.pageable || false
+    let [pageable, updatePageable] =  useState(options.pageable || false)
     const pageSize = options.pageSize || 10
     const [selectedRowId, updateSelectedRowId] = useState(null)
     const [sortedJson, updateSortedJson] = useState(props.json || [])
@@ -121,22 +121,25 @@ const SuperTable = props => {
     const searchFilter = (searchText) => {
 
        var result =[]
-        if (searchText.length <1) {
-            result=jsonCopy
-        }else{
+        if (searchText.length >0) {
             for(var i=0; i<jsonCopy.length; i++) {
                 for(var item in jsonCopy[i]) {
-                    var str =jsonCopy[i][item].toString().toLowerCase();
+                    var str =jsonCopy[i][item].toString().toLowerCase()
                     if(str.includes(searchText.toLowerCase())) {
-                        result.push(jsonCopy[i]);
+                        result.push(jsonCopy[i])
                           console.log(result,)
                     }
                 }
               }
+        }else{
+            result=jsonCopy
         }
+      
 
         updateTotalPages(Math.ceil(result.length / pageSize))
         updateJson(paginate(result, pageSize, pageNo - 1))
+        
+         
     }
     
 
